@@ -12,7 +12,7 @@ RUN_CELLS <- NULL
 source("R/00_settings.R")
 RUN_CELLS <- design$case_id                           # 全部 24 个情景 | all 24 scenarios
 RUN_MPS <- c("MP-A WCPFC TAC", "MP-B joint TAC", "MP-C TAC with deduction", "MP-D overlap effort cap")
-FIXED_SHARES <- FALSE
+FIXED_SHARES <- FALSE; UNBIASED_ERROR <- FALSE       # 主实验：两项补充实验的开关都关 | main experiment: both supplementary switches off
 
 # ---- 1. 依次运行 03–06 | run steps 03–06 in order ----
 t0 <- Sys.time()

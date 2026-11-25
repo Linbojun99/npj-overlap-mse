@@ -4,8 +4,9 @@
 #
 # 单独运行时：参考情景 C05（S1–S4 全关），四个候选 MP，逐年打印第 1 个重复。
 # Run on its own: reference scenario C05 (S1–S4 off), four candidate MPs, replicate 1 printed year by year.
-# 07 会把 RUN_CELLS 设为全部 24 个情景再 source 本文件。
-# Step 07 sets RUN_CELLS to all 24 scenarios and sources this file.
+# 07 会把 RUN_CELLS 设为全部 24 个情景再 source 本文件；09 与 12 也用本文件，只打开 FIXED_SHARES 或 UNBIASED_ERROR。
+# Step 07 sets RUN_CELLS to all 24 scenarios and sources this file; steps 09 and 12 also use it, switching on
+# FIXED_SHARES or UNBIASED_ERROR only.
 #
 # 管理者只看到观测与估计，从不读取真实种群 | the manager sees observations and estimates only, never the true population
 
@@ -15,6 +16,7 @@ if (!exists("init")) source("R/05_history.R")
 if (!exists("RUN_CELLS"))    RUN_CELLS <- "C05"          # 情景 | scenarios
 if (!exists("RUN_MPS"))      RUN_MPS <- mps              # 候选 MP | candidate MPs
 if (!exists("FIXED_SHARES")) FIXED_SHARES <- FALSE       # TRUE = MP-B 固定上报份额（补充实验，见 09）| fixed shares under MP-B (step 09)
+if (!exists("UNBIASED_ERROR")) UNBIASED_ERROR <- FALSE   # TRUE = 重疊区上报渔获的无偏误差（补充实验，见 12）| unbiased reporting error (step 12)
 VERBOSE <- length(RUN_CELLS) == 1 && N_REP <= 5          # 小运行才逐年打印 | print years only for small runs
 
 # HCR 控制点 | HCR control points
@@ -177,6 +179,9 @@ for (cell_id in RUN_CELLS) {
         U <- matrix(0, 3, A); U[, 2:A] <- survu[, 1:(A - 1)]; U[, A] <- U[, A] + survu[, A]; U[, 1] <- recu * recruit_share
         # ---- 10. 观测：S2 把重疊区上报渔获乘 (1 + b) | observation: S2 multiplies reported overlap catch by (1 + b) ----
         bias <- if (S2 != 0) bias_centre * (.5 + d$reporting_u[k]) else 0
+        # 无偏误差（12）：同一个 u 换成 3u − 2，b = 0.25 × (0.5 + 3u − 2) = 0.75u − 0.375，在 −0.375 与 0.375 之间均匀分布
+        # unbiased error (step 12): the same u replaced by 3u − 2, so b = 0.25 × (0.5 + 3u − 2) = 0.75u − 0.375, uniform on ±0.375
+        if (UNBIASED_ERROR) bias <- abs(misreporting) * (.5 + (3 * d$reporting_u[k] - 2))
         reported <- catch * exp(sigma_catch * d$catch_z[k, ] - .5 * sigma_catch^2)
         reported[c("OW", "OI")] <- reported[c("OW", "OI")] * (1 + bias)
         index <- VB * exp(sigma_index * d$index_z[k, ] - .5 * sigma_index^2)

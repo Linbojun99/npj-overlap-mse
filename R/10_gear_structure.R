@@ -1,6 +1,6 @@
-# 10_gear_structure.R — 补充实验：W 船队拆成延绳钓（LL）与曳绳钓（TR）（补充说明 5、补充图 4、补充表 11–12）
-# 10_gear_structure.R — supplementary experiment: the W fleet split into longline (LL) and troll (TR)
-#                       (Supplementary Note 5, Supplementary Fig. 4, Supplementary Tables 11–12)
+# 10_gear_structure.R — 附加分析：W 船队拆成延绳钓（LL）与曳绳钓（TR）；论文的图表不用这一步的结果
+# 10_gear_structure.R — additional analysis: the W fleet split into longline (LL) and troll (TR); no display of the
+#                       Article uses the results of this step
 #
 # 六种结构 | six structures:
 #   shared_2pct / shared_5pct     TR 占历史 W+OW 渔获 2% / 5%，与 LL 选择性相同 | TR 2% / 5% of historical W+OW catch, LL selectivity
@@ -8,7 +8,7 @@
 #   troll12_2pct / troll12_5pct   同上，渔业 12 | as above, fishery 12
 # 没有 TR 的四船队结构就是 07 的参考配置 | the four-fleet structure without troll is step 07's reference case
 #   GEAR_CONFIG=troll11_5pct N_REP=20 Rscript R/10_gear_structure.R
-#   GEAR_CONFIG=troll11_5pct N_REP=300 Rscript R/10_gear_structure.R    # 论文设置（约 30 分钟）| as in the Article (about 30 min)
+#   GEAR_CONFIG=troll11_5pct N_REP=300 Rscript R/10_gear_structure.R    # 300 个重复（约 30 分钟）| 300 replicates (about 30 min)
 
 # ---- 0. 本次运行的选择 | choices for this run ----
 if (!exists("GEAR_CONFIG")) GEAR_CONFIG <- Sys.getenv("GEAR_CONFIG", "troll11_5pct")

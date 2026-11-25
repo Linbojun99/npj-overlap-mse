@@ -1,5 +1,5 @@
-# 03_parameters.R — 操作模型、估计方法与 HCR 的全部参数（表 1、补充表 9–10）
-# 03_parameters.R — all parameters of the operating model, estimation method and HCR (Table 1, Supplementary Tables 9–10)
+# 03_parameters.R — 操作模型、估计方法与 HCR 的全部参数（表 3、补充表 4–5）
+# 03_parameters.R — all parameters of the operating model, estimation method and HCR (Table 3, Supplementary Tables 4–5)
 
 source("R/00_settings.R")
 

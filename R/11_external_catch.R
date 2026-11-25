@@ -1,6 +1,6 @@
-# 11_external_catch.R — 补充实验：MP 范围外渔获，两侧对称（补充说明 7、补充图 5、补充表 14）
+# 11_external_catch.R — 补充实验：MP 范围外渔获，两侧对称（补充说明 7、图 6、补充表 13）
 # 11_external_catch.R — supplementary experiment: catch outside the MP's scope on both sides
-#                       (Supplementary Note 7, Supplementary Fig. 5, Supplementary Table 14)
+#                       (Supplementary Note 7, Fig. 6, Supplementary Table 13)
 #
 # WCPFC 的官方评估（WCPFC22-2025-21）对两支不受 MP 管理的渔业设了固定渔获：东太（重疊区以外，船队 E）
 # 与中西太公约区赤道至 10°S 的延绳钓（这里加的船队 T，R1，历史渔获 = R1+R2 的 12%）。
@@ -10,7 +10,7 @@
 # in R1, 12% of the historical R1+R2 catch). Each fleet's capacity changes by −3%, 0 or +3% per year;
 # 3 × 3 levels × 12 combinations of S1–S3 × 4 MPs.
 #   N_REP=20 Rscript R/11_external_catch.R     # 约 6 分钟 | about 6 min
-#   N_REP=300 Rscript R/11_external_catch.R    # 论文设置（约 1.5 小时）| as in the Article (about 1.5 h)
+#   N_REP=300 Rscript R/11_external_catch.R    # 论文设置（约 20 分钟）| as in the Article (about 20 min)
 
 if (!exists("N_REP")) N_REP <- as.integer(Sys.getenv("N_REP", "20"))
 CONFIG <- "reference"
@@ -277,8 +277,8 @@ metrics <- bind_rows(rows)
 dest <- file.path(OUT, "11_external_catch"); dir.create(dest, showWarnings = FALSE)
 con <- gzfile(file.path(dest, "replicate_metrics.csv.gz"), "wt"); write.csv(metrics, con, row.names = FALSE, na = ""); close(con)
 
-# ---- 5. 效应：相对两支船队都不变，同一组合、MP、重复内配对（补充表 14、补充图 5）----
-# ---- 5. effects relative to both fleets constant, paired within cell, MP and replicate (Supplementary Table 14, Fig. 5) ----
+# ---- 5. 效应：相对两支船队都不变，同一组合、MP、重复内配对（补充表 13、图 6）----
+# ---- 5. effects relative to both fleets constant, paired within cell, MP and replicate (Supplementary Table 13, Fig. 6) ----
 ref <- metrics |> filter(E_level == 0, T_level == 0) |>
   select(case_id, mp, rep, D0 = mean_D, MP0 = relative_catch_MP_fleets, C0 = relative_catch, AE0 = mae_target)
 eff <- metrics |> filter(E_level != 0 | T_level != 0) |> inner_join(ref, by = c("case_id", "mp", "rep")) |>
