@@ -2,7 +2,7 @@
 
 R code for *Allocation rules determine how errors in reported overlap catch affect South Pacific albacore management procedures*.
 
-Requires R ≥ 4.3 with `dplyr`, `tidyr`, `readr` and `jsonlite`, and `ggplot2`, `patchwork`, `ggtext` and `ragg` for the figures. Download the WCPFC and IATTC public-domain longline data ([WCPFC](https://www.wcpfc.int/sustainability/scientific-data/wcpfc-public-domain-aggregated-catcheffort-data-download-page), [IATTC](https://www.iattc.org/en-US/Data/Public-domain)) into `data/raw/`.
+Requires R ≥ 4.3 with `dplyr`, `tidyr`, `readr` and `jsonlite`, and `ggplot2`, `patchwork`, `ggtext`, `ragg` and `textshaping` for the figures. Download the WCPFC and IATTC public-domain longline data ([WCPFC](https://www.wcpfc.int/sustainability/scientific-data/wcpfc-public-domain-aggregated-catcheffort-data-download-page), [IATTC](https://www.iattc.org/en-US/Data/Public-domain)) into `data/raw/`.
 
 Run the scripts from the repository root in this order. `07_experiment.R` runs steps 03–06 for one of the 12 configurations listed in `00_settings.R`; the Article uses `N_REP=300`.
 

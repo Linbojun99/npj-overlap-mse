@@ -59,13 +59,17 @@ legend_keys <- list(
   MP = key_mp)                                       # 图 4、图 6、补充图 3–4 | Figs 4 and 6, Supplementary Figs 3–4
 sym <- 0.30; gap <- 0.07; space <- 0.24              # 符号宽、符号与文字的间距、两项的间距（英寸）| symbol width and gaps (inches)
 gp <- gpar(fontsize = 7.5, fontfamily = FONT)
-measure <- tempfile(fileext = ".png")
-ragg::agg_png(measure, width = 7.2, height = 1, units = "in", res = 72)   # 只用来量文字宽度 | only for measuring text widths
+# 文字宽度直接由字体度量算出（72 dpi 的字宽），不另开绘图设备：R 图形引擎按设备的内存地址缓存字高，
+# 另开一个分辨率不同的设备，可能让之后的输出设备沿用错误的字高。
+# Text widths come straight from the font metrics (widths at 72 dpi) without opening a graphics device: R's graphics
+# engine caches character heights by the memory address of the device, so an extra device at another resolution
+# could pass wrong heights on to the output device.
 legends <- list()
 for (fig in names(legend_keys)) {
   keys <- legend_keys[[fig]]
-  text_w <- numeric(length(keys))
-  for (i in seq_along(keys)) text_w[i] <- convertWidth(grobWidth(textGrob(keys[[i]]$label, gp = gp)), "in", valueOnly = TRUE)
+  labels <- character(length(keys))
+  for (i in seq_along(keys)) labels[i] <- keys[[i]]$label
+  text_w <- textshaping::text_width(labels, family = FONT, size = 7.5, res = 72) / 72   # 英寸 | inches
   x <- -(sum(sym + gap + text_w) + space * (length(keys) - 1)) / 2   # 整行置中 | centre the row
   y <- unit(0.5, "npc")
   grobs <- list()
@@ -80,7 +84,6 @@ for (fig in names(legend_keys)) {
   }
   legends[[fig]] <- wrap_elements(full = gTree(children = do.call(gList, grobs)))
 }
-invisible(dev.off()); unlink(measure)
 
 # ================================================================ 图 1 | Figure 1
 # a) 2015–2024 每个 5° 格的钩数与两个公约区边界；b、c) 重疊区份额；d) 五个船旗两组织数据的比值
